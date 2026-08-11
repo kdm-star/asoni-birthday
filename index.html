@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#170d18">
+<meta name="description" content="Асониге арналған ерекше туған күн шақыртуы ❤️">
+<title>Туған күніңмен, Асони ❤️</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#ff6f91;
+  --rose:#ff9db3;
+  --cream:#fff7f3;
+  --dark:#160d17;
+  --glass:rgba(255,255,255,.12);
+}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,140,170,.28),transparent 30%),
+    radial-gradient(circle at 85% 25%,rgba(255,205,220,.18),transparent 30%),
+    linear-gradient(145deg,#120b14 0%,#2a1221 48%,#160c16 100%);
+  color:#fff;
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  overflow-x:hidden;
+}
+button{font:inherit}
+#particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particle{
+  position:absolute;
+  bottom:-50px;
+  opacity:0;
+  animation:rise linear infinite;
+  filter:drop-shadow(0 0 8px rgba(255,160,190,.5));
+}
+@keyframes rise{
+  0%{transform:translateY(0) scale(.5) rotate(0);opacity:0}
+  12%{opacity:.8}
+  100%{transform:translateY(-115vh) scale(1.3) rotate(360deg);opacity:0}
+}
+
+.intro{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  background:linear-gradient(145deg,#110a13,#2b1121);
+  transition:opacity .8s,visibility .8s;
+}
+.intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-card{
+  width:min(520px,100%);
+  text-align:center;
+  padding:42px 28px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:32px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  box-shadow:0 30px 100px rgba(0,0,0,.4);
+}
+.intro-heart{font-size:64px;animation:pulse 1.5s infinite}
+.intro h2{font-size:clamp(28px,7vw,42px);margin:16px 0 10px}
+.intro p{color:#f8dce6;line-height:1.7;margin-bottom:24px}
+.open-btn{
+  border:0;border-radius:999px;padding:16px 30px;
+  color:#fff;background:linear-gradient(135deg,#ff5e86,#e73568);
+  box-shadow:0 12px 35px rgba(255,70,120,.3);
+  cursor:pointer;font-weight:800;font-size:16px;
+  transition:.25s;
+}
+.open-btn:hover{transform:translateY(-2px) scale(1.02)}
+
+main{position:relative;z-index:1;max-width:920px;margin:auto;padding:70px 18px 80px}
+.hero{text-align:center;padding:10px 0 55px}
+.kicker{
+  display:inline-flex;gap:8px;align-items:center;
+  color:#ffdbe5;font-size:13px;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+h1{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(38px,9vw,76px);
+  line-height:1.02;
+  letter-spacing:-2px;
+  text-shadow:0 8px 35px rgba(0,0,0,.35);
+}
+.hero .name{color:#ff9db3}
+.subtitle{
+  max-width:650px;margin:20px auto 0;
+  color:#f7dce5;font-size:clamp(16px,3vw,20px);line-height:1.75;
+}
+.divider{width:90px;height:2px;margin:26px auto;background:linear-gradient(90deg,transparent,#ff9db3,transparent)}
+
+.card{
+  background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:30px;
+  padding:clamp(22px,5vw,44px);
+  margin:24px 0;
+  backdrop-filter:blur(15px);
+  box-shadow:0 25px 70px rgba(0,0,0,.22);
+}
+.story{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(18px,3.2vw,23px);
+  line-height:1.9;
+  color:#fff7f9;
+}
+.story p{margin-bottom:18px}
+.story p:last-child{margin-bottom:0}
+.quote{
+  border-left:3px solid #ff829e;
+  padding-left:20px;
+  color:#ffe0e8;
+}
+
+.section-title{
+  text-align:center;
+  font-family:Georgia,serif;
+  font-size:clamp(28px,6vw,42px);
+  margin-bottom:22px;
+}
+.date{
+  text-align:center;
+  font-size:clamp(22px,5vw,34px);
+  font-weight:800;
+  color:#fff;
+}
+.date small{display:block;color:#ffd8e2;font-size:15px;font-weight:400;margin-top:10px}
+
+.gallery{
+  display:block;
+}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:14px;
+  align-items:start;
+}
+.photo{overflow:hidden}
+.photo img{height:200px}
+
+/* Lightbox styles */
+.lightbox{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(7,6,8,.82);backdrop-filter:blur(6px);z-index:220;opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lb-stage{max-width:92vw;max-height:86vh;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+/* primary image is positioned statically for instant set; sliding images are positioned absolutely */
+.lb-stage img{max-width:100%;max-height:76vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);transition:transform .36s cubic-bezier(.2,.9,.2,1),opacity .28s;display:block}
+.lb-stage img.fading{opacity:0}
+.lb-slide-new{position:absolute;left:0;right:0}
+.lb-caption{color:#ffdde6;margin-top:10px;font-size:14px}
+.lb-close,.lb-prev,.lb-next{position:absolute;background:transparent;border:0;color:#fff;font-size:28px;cursor:pointer;padding:12px}
+.lb-close{right:18px;top:18px;font-size:22px}
+.lb-prev{left:18px}
+.lb-next{right:18px}
+
+@media(max-width:650px){
+  .photo img{height:220px}
+  .lb-prev,.lb-next{display:none}
+}
+.photo{
+  position:relative;overflow:hidden;border-radius:24px;
+  background:#24131d;min-height:280px;
+  border:1px solid rgba(255,255,255,.13);
+}
+.photo img{
+  width:100%;height:100%;display:block;object-fit:cover;
+  transition:transform .7s ease;
+}
+.photo:hover img{transform:scale(1.045)}
+.photo span{
+  position:absolute;left:14px;bottom:14px;
+  background:rgba(0,0,0,.42);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+  padding:7px 11px;border-radius:999px;font-size:12px;
+}
+
+.video-wrap{
+  overflow:hidden;border-radius:26px;
+  border:1px solid rgba(255,255,255,.15);
+  background:#050405;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+video{width:100%;display:block;max-height:720px;background:#000}
+
+.final{
+  text-align:center;padding:45px 20px 10px;
+}
+.final p{
+  font-family:Georgia,serif;font-size:clamp(22px,5vw,34px);
+  line-height:1.55;color:#fff4f7;
+}
+.signature{margin-top:20px;color:#ffb3c4;font-size:17px}
+
+.music-control{
+  position:fixed;right:18px;bottom:18px;z-index:50;
+  width:58px;height:58px;border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;cursor:pointer;color:#fff;
+  background:rgba(31,14,24,.78);backdrop-filter:blur(14px);
+  box-shadow:0 10px 35px rgba(0,0,0,.35);
+  font-size:22px;display:grid;place-items:center;
+  transition:.25s;
+}
+.music-control:hover{transform:scale(1.08)}
+.music-control.playing{box-shadow:0 0 0 7px rgba(255,130,160,.08),0 10px 35px rgba(255,80,120,.25)}
+.music-label{
+  position:fixed;right:84px;bottom:25px;z-index:49;
+  background:rgba(31,14,24,.8);padding:8px 12px;border-radius:999px;
+  font-size:12px;color:#ffe3ea;opacity:0;transform:translateX(10px);
+  transition:.3s;pointer-events:none;
+}
+.music-label.show{opacity:1;transform:translateX(0)}
+
+.qr-note{
+  text-align:center;color:#d9b9c5;font-size:12px;line-height:1.6;margin-top:30px
+}
+
+.fade{opacity:0;transform:translateY(28px);transition:opacity .9s,transform .9s}
+.fade.visible{opacity:1;transform:none}
+
+/* Cinema slideshow styles */
+.cinema{position:relative;width:100%;height:min(72vh,720px);overflow:hidden;border-radius:20px}
+.cinema .slides{position:relative;width:100%;height:100%}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .8s ease;z-index:0}
+.slide.active{opacity:1;z-index:2}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1);transition:transform 4s ease}
+.slide.active img{transform:scale(1.06)}
+.caption{position:absolute;left:0;right:0;bottom:28px;margin:auto;text-align:center;color:#fff;font-family:Georgia,serif;font-size:clamp(16px,3.4vw,22px);max-width:90%;padding:14px;border-radius:10px;backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.32));opacity:0;transform:translateY(12px);transition:opacity .6s ease .3s,transform .6s ease .3s}
+.slide.active .caption{opacity:1;transform:translateY(0)}
+.counter{position:absolute;left:18px;bottom:18px;color:#ffd9e6;font-weight:700;font-size:13px;background:rgba(0,0,0,0.28);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.06)}
+
+@media(max-width:650px){
+  .cinema{height:56vh}
+  .caption{font-size:16px;bottom:18px}
+}
+
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+
+@media(max-width:650px){
+  main{padding-top:45px}
+  .gallery{grid-template-columns:1fr}
+  .photo{min-height:390px}
+  .card{border-radius:24px}
+  .music-control{right:14px;bottom:14px}
+}
+</style>
+</head>
+
+<body>
+<div id="particles"></div>
+
+<!-- Первый экран нужен потому, что современные браузеры запрещают
+     запускать звук автоматически без действия пользователя. -->
+<div class="intro" id="intro">
+  <div class="intro-card">
+    <div class="intro-heart">❤️</div>
+    <h2>Асони, бұл саған.</h2>
+    <p>
+      Бір минутқа бәрін ұмытып,<br>
+      осы кішкентай әлемге кірші...
+    </p>
+    <button class="open-btn" id="openBtn">✨ Ашу</button>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+  <!-- Егер папкада music.mp3 болса — ол бірінші кезекте қолданылады. -->
+  <source src="music.mp3" type="audio/mpeg">
+  <!-- Резервтік музыка: уақытша сілтеме. Ұзақ мерзімге music.mp3
+       файлын папкаға қосу ұсынылады. -->
+  <source src="https://storage.googleapis.com/ot-pt/present_files/2026-08-11/anonymous/default/f715e4f320244c3f8bae24fa8223e991_.mp3?Expires=1789030116&amp;GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&amp;Signature=cFgawpQbdf3Y0UFtfBBFhxU8LaslAP8tTKi4hG1FmgdifvW4yccDn6IKajg%2B6HNfh44bDgwRQGRw8ETDfjyCcjrBF00iqI6zP5G1r3TdYwkxQD21q%2B29%2FlFTiZY3UpF9Pjl2p%2FJoa0hKIqBM8CXWi2pM1hdaFQ8RUvsg%2BH62BhEli7md2Ix1ReYYox%2FPQ8sTHeEvsH3l7%2BWCdxOji6iWke3H7Fp2B57pZjvUNDU1uCMDB4diDp6EmyjW%2FmPbU%2BTLBky2Y7Zu%2F81U72YSssBXmtNEVxlFeDhY5Hj%2FS2%2BKh%2FTJD711VB6J4L%2FEpaIshVsg%2BqpxzRXLXcJEPuvuBGRmXw%3D%3D" type="audio/mpeg">
+</audio>
+
+<button class="music-control" id="musicBtn" aria-label="Музыканы тоқтату/қосу">▶</button>
+<div class="music-label" id="musicLabel">Музыка</div>
+
+<main>
+  <section class="hero">
+    <div class="kicker">♡ арнайы саған дайындалды ♡</div>
+    <h1>Туған күніңмен,<br><span class="name">менің Асониім!</span> ❤️</h1>
+    <div class="divider"></div>
+    <p class="subtitle">
+      Кейбір адамдар өміріңе жай ғана келеді.<br>
+      Ал кейбіреулері келгеннен кейін маңызды, жоғалтуға қорқатын жан болады.
+      Ал мен үшін сен - сол маңызды жансың. 
+    </p>
+  </section>
+
+  <section class="card story fade">
+    <p>
+      Бұл шақырту — жай ғана туған күнге шақыру емес.
+      Бұл менің саған айтқым келген, бірақ кейде сөзбен жеткізу қиын
+      болатын бірнеше сезімімнің кішкентай ғана бөлігі.
+    </p>
+    <p>
+      Сені ұзақ күттім. Осы уақыт ішінде сағыныш та болды,
+      өкініш те, үміт те, қайта табысу да болды.
+      Бірақ қазір өткеннің бәрінен гөрі бір нәрсе маңыздырақ:
+    </p>
+    <p class="quote">
+      <strong>Сен қазір менің жанымдасың.</strong><br>
+      Жанымда болғаныңды мен қатты бағалаймын.
+    </p>
+    <p>
+      Сенің күлкіңді, дауысыңды, көзқарасыңды, киім стиліңді, қырсық және ерке мінезіңді,
+      тәтті қылықтарыңды — бәрін өз алдына бір әлем деп қабылдаймын.
+      Сондықтан бүгінгі күнің де сол әлемдей ерекше болғанын қалаймын.
+    </p>
+    
+  </section>
+
+  <section class="card fade">
+    <h2 class="section-title">Болатын кеш — тек сен үшін ✨</h2>
+    <div class="date">
+      14.08.2026 · 18:00 ❤️
+      <small>Осы уақытта саған арналған ерекше кеш басталады.</small>
+    </div>
+  </section>
+
+  <section class="card fade">
+    <h2 class="section-title">Біздің кішкентай тарихымыз 🤍</h2>
+    <div class="cinema" id="cinema">
+      <div class="slides">
+        <!-- Slides: only one visible at a time -->
+        <div class="slide" data-index="0">
+          <img src="photo1.jpg" alt="Естелік 1">
+          <div class="caption">Бәрі бір қарапайым сәттен басталды…</div>
+          <div class="counter">01 / 11</div>
+        </div>
+        <div class="slide" data-index="1">
+          <img src="photo2.jpg" alt="Естелік 2">
+          <div class="caption">Бірақ ол сәт мен үшін ерекше болып қалды.</div>
+          <div class="counter">02 / 11</div>
+        </div>
+        <div class="slide" data-index="2">
+          <img src="photo3.jpg" alt="Естелік 3">
+          <div class="caption">Сенімен өткен уақыттың әр минуты қымбат.</div>
+          <div class="counter">03 / 11</div>
+        </div>
+        <div class="slide" data-index="3">
+          <img src="photo4.jpg" alt="Естелік 4">
+          <div class="caption">Кейбір естеліктер жүректе сақталады.</div>
+          <div class="counter">04 / 11</div>
+        </div>
+        <div class="slide" data-index="4">
+          <img src="photo5.jpg" alt="Естелік 5">
+          <div class="caption">Кейде бір адамның өзі бүтін бір әлемге айналады.</div>
+          <div class="counter">05 / 11</div>
+        </div>
+        <div class="slide" data-index="5">
+          <img src="photo6.jpg" alt="Естелік 6">
+          <div class="caption">Сен бар жерде қарапайым күннің өзі ерекше.</div>
+          <div class="counter">06 / 11</div>
+        </div>
+        <div class="slide" data-index="6">
+          <img src="photo7.jpg" alt="Естелік 7">
+          <div class="caption">Біздің әрбір сәтіміз — мен үшін бөлек тарих.</div>
+          <div class="counter">07 / 11</div>
+        </div>
+        <div class="slide" data-index="7">
+          <img src="photo8.jpg" alt="Естелік 8">
+          <div class="caption">Уақыт өтеді, ал кейбір сезімдер өзгермейді.</div>
+          <div class="counter">08 / 11</div>
+        </div>
+        <div class="slide" data-index="8">
+          <img src="photo9.jpg" alt="Естелік 9">
+          <div class="caption">Осы кадрлардың әрқайсысында өз алдына бір естелік бар.</div>
+          <div class="counter">09 / 11</div>
+        </div>
+        <div class="slide" data-index="9">
+          <img src="photo10.jpg" alt="Естелік 10">
+          <div class="caption">Ал ең әдемі сәттеріміз әлі алда…</div>
+          <div class="counter">10 / 11</div>
+        </div>
+        <div class="slide" data-index="10">
+          <img src="photo11.jpg" alt="Естелік 11">
+          <div class="caption">Ал біздің ең әдемі кадрымыз әлі алда. ❤️</div>
+          <div class="counter">11 / 11</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card fade">
+    <h2 class="section-title">Ал енді саған арналған кішігірім кино 🎬</h2>
+    <div class="video-wrap">
+      <video id="birthdayVideo" controls playsinline preload="metadata" poster="photo1.jpg">
+        <source src="IMG_6403_small.mp4" type="video/mp4">
+        <source src="IMG_6403.MOV" type="video/quicktime">
+        Браузеріңіз видеоны қолдамайды.
+      </video>
+    </div>
+  </section>
+
+  <section class="final fade">
+    <p>
+      «Кейбір кездесулер кездейсоқ сияқты көрінеді.<br>
+      Бірақ кейбір адамдарды жүрек өзі таңдайды.»
+    </p>
+    <div class="signature">
+      Сені күтемін, менің Асони ❤️
+    </div>
+  </section>
+
+  
+</main>
+
+
+
+<script>
+(function(){
+  const music = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicLabel = document.getElementById('musicLabel');
+  const intro = document.getElementById('intro');
+  const openBtn = document.getElementById('openBtn');
+
+  let musicStarted = false;
+
+  function setMusicUI(isPlaying){
+    if(!musicBtn) return;
+    musicBtn.textContent = isPlaying ? '⏸' : '▶';
+    musicBtn.classList.toggle('playing', !!isPlaying);
+  }
+
+  async function startMusic(){
+    if(!music) return;
+    try{
+      music.volume = 0.72;
+      await music.play();
+      musicStarted = true;
+      setMusicUI(true);
+      if(musicLabel) musicLabel.textContent = 'Музыка ойнап тұр';
+    }catch(e){
+      setMusicUI(false);
+      if(musicLabel) musicLabel.textContent = 'Музыканы ▶ басып қосыңыз';
+      console.warn('Failed to start music:', e);
+    }
+  }
+
+  if(openBtn){
+    openBtn.addEventListener('click', async () => {
+      // Бұл — браузерге дыбысты қосуға рұқсат беретін бірінші user interaction.
+      await startMusic();
+      if(intro){
+        intro.classList.add('hide');
+        setTimeout(() => intro.remove(), 900);
+      }
+      // Start the cinematic slideshow after opening
+      setTimeout(() => {
+        try{ startSlideshow(); }catch(e){console.warn('Slideshow start failed', e)}
+      }, 880);
+    });
+  }
+
+  if(musicBtn){
+    musicBtn.addEventListener('click', async () => {
+      if(!music) return;
+      if(music.paused){
+        await startMusic();
+      }else{
+        music.pause();
+        setMusicUI(false);
+        if(musicLabel) musicLabel.textContent = 'Музыка тоқтатылды';
+      }
+      if(musicLabel){
+        musicLabel.classList.add('show');
+        clearTimeout(window.labelTimer);
+        window.labelTimer = setTimeout(() => musicLabel.classList.remove('show'), 1800);
+      }
+    });
+  }
+
+  if(music){
+    music.addEventListener('play', () => setMusicUI(true));
+    music.addEventListener('pause', () => setMusicUI(false));
+  }
+
+  // Фондағы нәзік жүректер
+  const symbols = ['♡','♥','✦','✧','·'];
+  const particles = document.getElementById('particles');
+  if(particles){
+    for(let i=0;i<28;i++){
+      const el=document.createElement('span');
+      el.className='particle';
+      el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left=Math.random()*100+'%';
+      el.style.fontSize=(10+Math.random()*22)+'px';
+      el.style.animationDuration=(8+Math.random()*10)+'s';
+      el.style.animationDelay=(Math.random()*9)+'s';
+      particles.appendChild(el);
+    }
+  }
+
+  // Scroll animation (IntersectionObserver fallback)
+  const fadeEls = document.querySelectorAll('.fade');
+  if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    },{threshold:.12});
+    fadeEls.forEach(el=>observer.observe(el));
+  }else{
+    // Fallback: reveal all
+    fadeEls.forEach(el=>el.classList.add('visible'));
+  }
+
+  // Кликке нәзік жұлдызша
+  document.addEventListener('click', e=>{
+    for(let i=0;i<4;i++){
+      const s=document.createElement('span');
+      s.textContent=['✦','✧','♡'][Math.floor(Math.random()*3)];
+      s.style.position='fixed';
+      s.style.left=(e.clientX+(Math.random()-.5)*35)+'px';
+      s.style.top=(e.clientY+(Math.random()-.5)*35)+'px';
+      s.style.color='#ffb5c6';
+      s.style.pointerEvents='none';
+      s.style.zIndex='120';
+      s.style.fontSize=(12+Math.random()*12)+'px';
+      s.style.transition='all 900ms ease-out';
+      document.body.appendChild(s);
+      requestAnimationFrame(()=>{
+        s.style.transform='translate('+((Math.random()-.5)*60)+'px,-'+(30+Math.random()*70)+'px) scale(.3)';
+        s.style.opacity='0';
+      });
+      setTimeout(()=>s.remove(),950);
+    }
+  });
+  
+  // Cinematic slideshow
+  const slides = document.querySelectorAll('.cinema .slide');
+  let slideIndex = 0;
+
+  function showSlide(i){
+    if(!slides || slides.length===0) return;
+    slideIndex = (i + slides.length) % slides.length;
+    slides.forEach((s, idx)=>{
+      if(idx === slideIndex){
+        s.classList.add('active');
+      }else{
+        s.classList.remove('active');
+      }
+    });
+    // manual mode: do not auto-advance; advancement is on user interaction
+  }
+
+  function startSlideshow(){
+    if(!slides || slides.length===0) return;
+    // ensure first slide starts from beginning
+    slides.forEach(s=>s.classList.remove('active'));
+    showSlide(0);
+  }
+
+  function stopSlideshow(){
+    // noop in manual mode
+  }
+
+  function goToVideo(){
+    stopSlideshow();
+    const video = document.getElementById('birthdayVideo');
+    if(video){
+      try{
+        // keep background music playing; play video muted to avoid clash
+        video.muted = true;
+        video.play().catch(()=>{});
+        // reveal / scroll to video
+        const vw = document.querySelector('.video-wrap');
+        if(vw) vw.scrollIntoView({behavior:'smooth'});
+      }catch(e){
+        console.warn('Failed to start video', e);
+      }
+    }
+  }
+
+  // Advance slides on click/tap: click moves to next; when last, go to video
+  const cinemaEl = document.getElementById('cinema');
+  if(cinemaEl){
+    cinemaEl.addEventListener('click', (e)=>{
+      // optionally ignore clicks on links etc.
+      if(slides && slideIndex + 1 < slides.length){
+        showSlide(slideIndex+1);
+      }else{
+        goToVideo();
+      }
+    });
+
+    // vertical swipe support to go next/prev
+    let startY = 0;
+    cinemaEl.addEventListener('touchstart', e=>{ startY = e.touches[0].clientY; });
+    cinemaEl.addEventListener('touchend', e=>{
+      const dy = e.changedTouches[0].clientY - startY;
+      if(Math.abs(dy) < 30) return;
+      if(dy < 0){ // swipe up -> next
+        if(slideIndex + 1 < slides.length) showSlide(slideIndex+1); else goToVideo();
+      }else{ // swipe down -> prev
+        if(slideIndex > 0) showSlide(slideIndex-1);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
