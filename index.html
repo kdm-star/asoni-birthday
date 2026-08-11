@@ -26,6 +26,8 @@ body{
   color:#fff;
   font-family:Inter,"Segoe UI",Arial,sans-serif;
   overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0);
+  padding-bottom:env(safe-area-inset-bottom,0);
 }
 button{font:inherit}
 #particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
@@ -142,27 +144,7 @@ h1{
 .photo{overflow:hidden}
 .photo img{height:200px}
 
-/* Lightbox styles */
-.lightbox{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(7,6,8,.82);backdrop-filter:blur(6px);z-index:220;opacity:0;pointer-events:none;transition:opacity .25s;
-}
-.lightbox.open{opacity:1;pointer-events:auto}
-.lb-stage{max-width:92vw;max-height:86vh;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
-/* primary image is positioned statically for instant set; sliding images are positioned absolutely */
-.lb-stage img{max-width:100%;max-height:76vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);transition:transform .36s cubic-bezier(.2,.9,.2,1),opacity .28s;display:block}
-.lb-stage img.fading{opacity:0}
-.lb-slide-new{position:absolute;left:0;right:0}
-.lb-caption{color:#ffdde6;margin-top:10px;font-size:14px}
-.lb-close,.lb-prev,.lb-next{position:absolute;background:transparent;border:0;color:#fff;font-size:28px;cursor:pointer;padding:12px}
-.lb-close{right:18px;top:18px;font-size:22px}
-.lb-prev{left:18px}
-.lb-next{right:18px}
 
-@media(max-width:650px){
-  .photo img{height:220px}
-  .lb-prev,.lb-next{display:none}
-}
 .photo{
   position:relative;overflow:hidden;border-radius:24px;
   background:#24131d;min-height:280px;
@@ -181,9 +163,41 @@ h1{
 }
 
 .video-wrap{
+  position:relative;
   overflow:hidden;border-radius:26px;
   border:1px solid rgba(255,255,255,.15);
   background:#050405;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.video-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+.video-play{
+  pointer-events:auto;
+  width:72px;
+  height:72px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,90,140,.94);
+  color:#fff;
+  font-size:32px;
+  cursor:pointer;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  transition:.25s;
+}
+.video-play:hover{transform:scale(1.04)}
+.video-hint{
+  margin-top:14px;
+  color:#ffdfe7;
+  font-size:13px;
+  text-align:center;
+  max-width:220px;
+  opacity:.96;
 }
 video{width:100%;display:block;max-height:720px;background:#000}
 
@@ -243,6 +257,7 @@ video{width:100%;display:block;max-height:720px;background:#000}
 @media(max-width:650px){
   main{padding-top:45px}
   .gallery{grid-template-columns:1fr}
+  .photo img{height:220px}
   .photo{min-height:390px}
   .card{border-radius:24px}
   .music-control{right:14px;bottom:14px}
@@ -269,13 +284,13 @@ video{width:100%;display:block;max-height:720px;background:#000}
 
 <audio id="bgMusic" loop preload="auto">
   <!-- Егер папкада music.mp3 болса — ол бірінші кезекте қолданылады. -->
-  <source src="music.mp3" type="audio/mpeg">
+  <source src="./music.mp3" type="audio/mpeg">
   <!-- Резервтік музыка: уақытша сілтеме. Ұзақ мерзімге music.mp3
        файлын папкаға қосу ұсынылады. -->
   <source src="https://storage.googleapis.com/ot-pt/present_files/2026-08-11/anonymous/default/f715e4f320244c3f8bae24fa8223e991_.mp3?Expires=1789030116&amp;GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&amp;Signature=cFgawpQbdf3Y0UFtfBBFhxU8LaslAP8tTKi4hG1FmgdifvW4yccDn6IKajg%2B6HNfh44bDgwRQGRw8ETDfjyCcjrBF00iqI6zP5G1r3TdYwkxQD21q%2B29%2FlFTiZY3UpF9Pjl2p%2FJoa0hKIqBM8CXWi2pM1hdaFQ8RUvsg%2BH62BhEli7md2Ix1ReYYox%2FPQ8sTHeEvsH3l7%2BWCdxOji6iWke3H7Fp2B57pZjvUNDU1uCMDB4diDp6EmyjW%2FmPbU%2BTLBky2Y7Zu%2F81U72YSssBXmtNEVxlFeDhY5Hj%2FS2%2BKh%2FTJD711VB6J4L%2FEpaIshVsg%2BqpxzRXLXcJEPuvuBGRmXw%3D%3D" type="audio/mpeg">
 </audio>
 
-<button class="music-control" id="musicBtn" aria-label="Музыканы тоқтату/қосу">▶</button>
+<button class="music-control" id="musicBtn" aria-label="Музыканы тоқтату/қосу">🎵</button>
 <div class="music-label" id="musicLabel">Музыка</div>
 
 <main>
@@ -327,57 +342,57 @@ video{width:100%;display:block;max-height:720px;background:#000}
       <div class="slides">
         <!-- Slides: only one visible at a time -->
         <div class="slide" data-index="0">
-          <img src="photo1.jpg" alt="Естелік 1">
+          <img src="./photo1.jpg" alt="Естелік 1">
           <div class="caption">Бәрі бір қарапайым сәттен басталды…</div>
           <div class="counter">01 / 11</div>
         </div>
         <div class="slide" data-index="1">
-          <img src="photo2.jpg" alt="Естелік 2">
+          <img src="./photo2.jpg" alt="Естелік 2">
           <div class="caption">Бірақ ол сәт мен үшін ерекше болып қалды.</div>
           <div class="counter">02 / 11</div>
         </div>
         <div class="slide" data-index="2">
-          <img src="photo3.jpg" alt="Естелік 3">
+          <img src="./photo3.jpg" alt="Естелік 3">
           <div class="caption">Сенімен өткен уақыттың әр минуты қымбат.</div>
           <div class="counter">03 / 11</div>
         </div>
         <div class="slide" data-index="3">
-          <img src="photo4.jpg" alt="Естелік 4">
+          <img src="./photo4.jpg" alt="Естелік 4">
           <div class="caption">Кейбір естеліктер жүректе сақталады.</div>
           <div class="counter">04 / 11</div>
         </div>
         <div class="slide" data-index="4">
-          <img src="photo5.jpg" alt="Естелік 5">
+          <img src="./photo5.jpg" alt="Естелік 5">
           <div class="caption">Кейде бір адамның өзі бүтін бір әлемге айналады.</div>
           <div class="counter">05 / 11</div>
         </div>
         <div class="slide" data-index="5">
-          <img src="photo6.jpg" alt="Естелік 6">
+          <img src="./photo6.jpg" alt="Естелік 6">
           <div class="caption">Сен бар жерде қарапайым күннің өзі ерекше.</div>
           <div class="counter">06 / 11</div>
         </div>
         <div class="slide" data-index="6">
-          <img src="photo7.jpg" alt="Естелік 7">
+          <img src="./photo7.jpg" alt="Естелік 7">
           <div class="caption">Біздің әрбір сәтіміз — мен үшін бөлек тарих.</div>
           <div class="counter">07 / 11</div>
         </div>
         <div class="slide" data-index="7">
-          <img src="photo8.jpg" alt="Естелік 8">
+          <img src="./photo8.jpg" alt="Естелік 8">
           <div class="caption">Уақыт өтеді, ал кейбір сезімдер өзгермейді.</div>
           <div class="counter">08 / 11</div>
         </div>
         <div class="slide" data-index="8">
-          <img src="photo9.jpg" alt="Естелік 9">
+          <img src="./photo9.jpg" alt="Естелік 9">
           <div class="caption">Осы кадрлардың әрқайсысында өз алдына бір естелік бар.</div>
           <div class="counter">09 / 11</div>
         </div>
         <div class="slide" data-index="9">
-          <img src="photo10.jpg" alt="Естелік 10">
+          <img src="./photo10.jpg" alt="Естелік 10">
           <div class="caption">Ал ең әдемі сәттеріміз әлі алда…</div>
           <div class="counter">10 / 11</div>
         </div>
         <div class="slide" data-index="10">
-          <img src="photo11.jpg" alt="Естелік 11">
+          <img src="./photo11.jpg" alt="Естелік 11">
           <div class="caption">Ал біздің ең әдемі кадрымыз әлі алда. ❤️</div>
           <div class="counter">11 / 11</div>
         </div>
@@ -388,11 +403,15 @@ video{width:100%;display:block;max-height:720px;background:#000}
   <section class="card fade">
     <h2 class="section-title">Ал енді саған арналған кішігірім кино 🎬</h2>
     <div class="video-wrap">
-      <video id="birthdayVideo" controls playsinline preload="metadata" poster="photo1.jpg">
-        <source src="IMG_6403_small.mp4" type="video/mp4">
-        <source src="IMG_6403.MOV" type="video/quicktime">
+      <video id="birthdayVideo" controls playsinline preload="metadata" poster="./photo1.jpg">
+        <source src="./IMG_6403_small.mp4" type="video/mp4">
+        <source src="./IMG_6403.MOV" type="video/quicktime">
         Браузеріңіз видеоны қолдамайды.
       </video>
+      <div class="video-overlay" id="videoOverlay">
+        <button class="video-play" id="videoPlayBtn" type="button" aria-label="Видео ойнау">▶</button>
+        <div class="video-hint">Егер видео автоматты түрде басталмаса, осы батырманы басыңыз</div>
+      </div>
     </div>
   </section>
 
@@ -423,7 +442,7 @@ video{width:100%;display:block;max-height:720px;background:#000}
 
   function setMusicUI(isPlaying){
     if(!musicBtn) return;
-    musicBtn.textContent = isPlaying ? '⏸' : '▶';
+    musicBtn.textContent = isPlaying ? '⏸' : '🎵';
     musicBtn.classList.toggle('playing', !!isPlaying);
   }
 
@@ -443,17 +462,24 @@ video{width:100%;display:block;max-height:720px;background:#000}
   }
 
   if(openBtn){
-    openBtn.addEventListener('click', async () => {
-      // Бұл — браузерге дыбысты қосуға рұқсат беретін бірінші user interaction.
-      await startMusic();
+    openBtn.addEventListener('click', () => {
+      // Бірінші user interaction тұтынушы интерфейсіне сай келеді.
       if(intro){
         intro.classList.add('hide');
-        setTimeout(() => intro.remove(), 900);
+        setTimeout(() => {
+          if(intro.parentNode) intro.parentNode.removeChild(intro);
+        }, 900);
       }
-      // Start the cinematic slideshow after opening
-      setTimeout(() => {
-        try{ startSlideshow(); }catch(e){console.warn('Slideshow start failed', e)}
-      }, 880);
+
+      try{
+        startSlideshow();
+      }catch(e){
+        console.warn('Slideshow start failed', e);
+      }
+
+      startMusic().catch(e => {
+        console.warn('Music start failed', e);
+      });
     });
   }
 
@@ -535,9 +561,12 @@ video{width:100%;display:block;max-height:720px;background:#000}
   // Cinematic slideshow
   const slides = document.querySelectorAll('.cinema .slide');
   let slideIndex = 0;
+  let slideTimer = null;
+  const SLIDE_DURATION = 4000; // 4 seconds per slide
 
   function showSlide(i){
     if(!slides || slides.length===0) return;
+    clearTimeout(slideTimer);
     slideIndex = (i + slides.length) % slides.length;
     slides.forEach((s, idx)=>{
       if(idx === slideIndex){
@@ -546,18 +575,22 @@ video{width:100%;display:block;max-height:720px;background:#000}
         s.classList.remove('active');
       }
     });
-    // manual mode: do not auto-advance; advancement is on user interaction
+
+    if(slideIndex + 1 < slides.length){
+      slideTimer = setTimeout(()=> showSlide(slideIndex+1), SLIDE_DURATION);
+    }else{
+      slideTimer = setTimeout(()=> goToVideo(), SLIDE_DURATION);
+    }
   }
 
   function startSlideshow(){
     if(!slides || slides.length===0) return;
-    // ensure first slide starts from beginning
     slides.forEach(s=>s.classList.remove('active'));
     showSlide(0);
   }
 
   function stopSlideshow(){
-    // noop in manual mode
+    clearTimeout(slideTimer);
   }
 
   function goToVideo(){
@@ -565,10 +598,8 @@ video{width:100%;display:block;max-height:720px;background:#000}
     const video = document.getElementById('birthdayVideo');
     if(video){
       try{
-        // keep background music playing; play video muted to avoid clash
         video.muted = true;
         video.play().catch(()=>{});
-        // reveal / scroll to video
         const vw = document.querySelector('.video-wrap');
         if(vw) vw.scrollIntoView({behavior:'smooth'});
       }catch(e){
@@ -576,6 +607,35 @@ video{width:100%;display:block;max-height:720px;background:#000}
       }
     }
   }
+
+  function initializeVideoOverlay(){
+    const video = document.getElementById('birthdayVideo');
+    const overlay = document.getElementById('videoOverlay');
+    const button = document.getElementById('videoPlayBtn');
+    if(!video || !overlay || !button) return;
+
+    function hideOverlay(){
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+    }
+
+    function showOverlay(){
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+    }
+
+    button.addEventListener('click', () => {
+      video.muted = false;
+      video.play().catch(() => {});
+      hideOverlay();
+    });
+
+    video.addEventListener('play', hideOverlay);
+    video.addEventListener('pause', showOverlay);
+    showOverlay();
+  }
+
+  initializeVideoOverlay();
 
   // Advance slides on click/tap: click moves to next; when last, go to video
   const cinemaEl = document.getElementById('cinema');
